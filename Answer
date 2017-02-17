@@ -1,0 +1,64 @@
+1) COMPONENTS OF HADOOP 2.x :-
+Hadoop 2.x has the following three Major Components :
+              i)   HDFS : HDFS stands for Hadoop Distributed File System. It is also know as HDFS V2 as it is part of Hadoop 2.x with 
+                 some enhanced features. It is used as a Distributed Storage System in Hadoop Architecture.
+              ii)  YARN : YARN stands for Yet Another Resource Negotiator. It is new Component in Hadoop 2.x Architecture. It is also
+                 know as “MR V2”.
+              iii) MapReduce : MapReduce is a Batch Processing or Distributed Data Processing Module. It is also know as “MR V1” as it is 
+                 part of Hadoop 1.x with some updated features.
+
+i) HDFS :
+     HDFS High Availability (HA)
+             As you know in Hadoop 1.x architecture Name Node was a single point of failure, which means if your Name Node daemon is down 
+        somehow, you don’t have access to your Hadoop Cluster than after. How to deal with this problem?
+             Hadoop 2.x is featured with Name Node HA which is referred as HDFS High Availability (HA).
+
+        1)Hadoop 2.x supports two Name Nodes at a time one node is active and another is standby node
+        2)Active Name Node handles the client operations in the cluster
+        3)StandBy Name Node manages metadata same as Secondary Name Node in Hadoop 1.x
+        4)When Active Name Node is down, Standby Name Node takes over and will handle the client operations then after
+        5)HDFS HA can be configured by two ways
+               i)  Using Shared NFS Directory
+               ii) Using Quorum Journal Manager
+     
+     HDFS Federation :-
+             HDFS uses namespaces for managing directories, file and block level information in cluster. Hadoop 1.x architecture was able
+        to manage only single namespace in a whole cluster with the help of the Name Node (which is a single point of failure in 
+        Hadoop 1.x). Once that Name Node is down you loose access of full cluster data. It was not possible for partial data availability 
+        based on name space.
+
+             Above problem is solved by HDFS Federation i Hadoop 2.x Architecture which allows to manage multiple namespaces by enabling
+        multiple Name Nodes. So on HDFS shell you have multiple directories available but it may be possible that two different directories
+        are managed by two active Name Nodes at a time.
+        
+ii)YARN :
+             The fundamental idea of YARN is to split up the functionalities of resource management and job scheduling/monitoring into 
+        separate daemons. The idea is to have a global ResourceManager (RM) and per-application ApplicationMaster (AM). An application
+        is either a single job or a DAG of jobs.
+             The ResourceManager and the NodeManager form the data-computation framework. The ResourceManager is the ultimate authority 
+        that arbitrates resources among all the applications in the system. The NodeManager is the per-machine framework agent who is 
+        responsible for containers, monitoring their resource usage (cpu, memory, disk, network) and reporting the same to the 
+        ResourceManager/Scheduler.
+             The per-application ApplicationMaster is, in effect, a framework specific library and is tasked with negotiating resources
+        from the ResourceManager and working with the NodeManager(s) to execute and monitor the tasks.
+
+iii) MAPREDUCE :
+             MapReduce2 has replace old daemon process Job Tracker and Task Tracker with YARN components Resource Manager and Node
+          Manager respectively. These two components are responsible for executing distributed data computation jobs in Hadoop 2.
+       
+       Resource Manager :-
+
+             * This daemon process runs on master node (may run on the same machine as name node for smaller clusters).
+             * It is responsible for getting job submitted from client and schedule it on cluster, monitoring running jobs on cluster and
+          allocating proper resources on the slave node.
+             * It communicates with Node Manager daemon process on the slave node to track the resource utilization.
+             * It uses two other processes named Application Manager and Scheduler for MapReduce task and resource management.
+
+       Node Manager
+
+             * This daemon process runs on slave nodes (normally on HDFS Data node machines).
+             * It is responsible for coordinating with Resource Manager for task scheduling and tracking the resource utilization on the
+          slave node.
+             * It also reports the resource utilization back to the Resource Manager.
+             * It uses other daemon process like Application Master and Container for MapReduce task scheduling and execution on the
+          slave node.
